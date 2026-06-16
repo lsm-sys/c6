@@ -11,28 +11,110 @@
             box-sizing: border-box;
         }
 
+        :root,
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(160deg, #7dd3fc 0%, #bae6fd 30%, #fde68a 65%, #fb923c 100%);
+            --bg-sun: radial-gradient(circle at 85% 12%, rgba(255, 236, 120, 0.55) 0%, transparent 42%);
+            --calc-bg: rgba(255, 255, 255, 0.92);
+            --calc-shadow: 0 20px 60px rgba(251, 146, 60, 0.25);
+            --calc-border: rgba(255, 255, 255, 0.6);
+            --display-bg: #1e3a5f;
+            --display-text: #ffffff;
+            --btn-bg: #f8fafc;
+            --btn-text: #334155;
+            --btn-hover: #e2e8f0;
+            --btn-shadow: rgba(15, 23, 42, 0.15);
+            --operator-bg: #0ea5e9;
+            --operator-hover: #0284c7;
+            --equals-bg: #f97316;
+            --equals-hover: #ea580c;
+            --clear-bg: #ef4444;
+            --clear-hover: #dc2626;
+            --toggle-bg: rgba(255, 255, 255, 0.75);
+            --toggle-text: #0f172a;
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(160deg, #0c4a6e 0%, #1e3a5f 40%, #7c2d12 85%, #451a03 100%);
+            --bg-sun: radial-gradient(circle at 80% 8%, rgba(251, 191, 36, 0.2) 0%, transparent 38%);
+            --calc-bg: rgba(15, 23, 42, 0.88);
+            --calc-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+            --calc-border: rgba(255, 255, 255, 0.08);
+            --display-bg: #020617;
+            --display-text: #f8fafc;
+            --btn-bg: #1e293b;
+            --btn-text: #e2e8f0;
+            --btn-hover: #334155;
+            --btn-shadow: rgba(0, 0, 0, 0.35);
+            --operator-bg: #0891b2;
+            --operator-hover: #0e7490;
+            --equals-bg: #ea580c;
+            --equals-hover: #c2410c;
+            --clear-bg: #b91c1c;
+            --clear-hover: #991b1b;
+            --toggle-bg: rgba(30, 41, 59, 0.85);
+            --toggle-text: #fde68a;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bg-gradient);
             padding: 20px;
+            transition: background 0.4s ease;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: var(--bg-sun);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .calculator {
-            background: #ffffff;
+            position: relative;
+            z-index: 1;
+            background: var(--calc-bg);
+            border: 1px solid var(--calc-border);
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--calc-shadow);
             padding: 30px;
             max-width: 400px;
             width: 100%;
+            backdrop-filter: blur(8px);
+            transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .calculator-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 16px;
+        }
+
+        .theme-toggle {
+            background: var(--toggle-bg);
+            color: var(--toggle-text);
+            border: 1px solid var(--calc-border);
+            border-radius: 999px;
+            font-size: 1.25rem;
+            padding: 8px 14px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            line-height: 1;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
         }
 
         .display {
-            background: #1a1a1a;
-            color: #ffffff;
+            background: var(--display-bg);
+            color: var(--display-text);
             font-size: 2.5rem;
             padding: 20px;
             text-align: right;
@@ -44,6 +126,7 @@
             justify-content: flex-end;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .buttons {
@@ -53,7 +136,7 @@
         }
 
         button {
-            background: #f0f0f0;
+            background: var(--btn-bg);
             border: none;
             border-radius: 10px;
             font-size: 1.5rem;
@@ -61,45 +144,45 @@
             cursor: pointer;
             transition: all 0.2s;
             font-weight: 600;
-            color: #333;
+            color: var(--btn-text);
         }
 
         button:hover {
-            background: #e0e0e0;
+            background: var(--btn-hover);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px var(--btn-shadow);
         }
 
         button:active {
             transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 5px var(--btn-shadow);
         }
 
         .operator {
-            background: #667eea;
+            background: var(--operator-bg);
             color: #ffffff;
         }
 
         .operator:hover {
-            background: #5568d3;
+            background: var(--operator-hover);
         }
 
         .equals {
-            background: #764ba2;
+            background: var(--equals-bg);
             color: #ffffff;
         }
 
         .equals:hover {
-            background: #653a8a;
+            background: var(--equals-hover);
         }
 
         .clear {
-            background: #ff6b6b;
+            background: var(--clear-bg);
             color: #ffffff;
         }
 
         .clear:hover {
-            background: #ee5a5a;
+            background: var(--clear-hover);
         }
 
         .zero {
@@ -109,6 +192,9 @@
 </head>
 <body>
     <div class="calculator">
+        <div class="calculator-header">
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Переключить тему">🌙</button>
+        </div>
         <div class="display" id="display">0</div>
         <div class="buttons">
             <button class="clear" onclick="clearDisplay()">C</button>
@@ -140,6 +226,35 @@
         let display = document.getElementById('display');
         let currentInput = '0';
         let shouldResetDisplay = false;
+
+        const html = document.documentElement;
+        const themeToggle = document.getElementById('themeToggle');
+
+        function getPreferredTheme() {
+            const saved = localStorage.getItem('theme');
+            if (saved === 'light' || saved === 'dark') {
+                return saved;
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function applyTheme(theme) {
+            html.setAttribute('data-theme', theme);
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+            themeToggle.setAttribute(
+                'aria-label',
+                theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'
+            );
+            localStorage.setItem('theme', theme);
+        }
+
+        function toggleTheme() {
+            const nextTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            applyTheme(nextTheme);
+        }
+
+        applyTheme(getPreferredTheme());
+        themeToggle.addEventListener('click', toggleTheme);
 
         function updateDisplay() {
             display.textContent = currentInput;
@@ -187,10 +302,8 @@
 
         function calculate() {
             try {
-                // Заменяем × на * для вычисления
                 let expression = currentInput.replace(/×/g, '*');
                 
-                // Проверяем на деление на ноль
                 if (expression.includes('/0') && !expression.includes('/0.')) {
                     currentInput = 'Ошибка';
                     updateDisplay();
@@ -235,7 +348,6 @@
             updateDisplay();
         }
 
-        // Поддержка клавиатуры
         document.addEventListener('keydown', function(event) {
             const key = event.key;
             
